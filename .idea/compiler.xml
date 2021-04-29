@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="easyiat-framework" />
+        <module name="EasyIAT" />
+        <module name="easyiat-system" />
+        <module name="easyiat-core" />
+        <module name="easyiat-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="EasyIat" target="1.8" />
+      <module name="easyiat-service" target="1.8" />
+      <module name="easyiat-test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

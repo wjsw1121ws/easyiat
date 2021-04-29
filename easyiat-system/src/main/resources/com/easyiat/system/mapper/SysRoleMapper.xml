@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easyiat.system.mapper.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.easyiat.system.entity.SysRole">
+        <!--@mbg.generated-->
+        <!--@Table easyiat.sys_role-->
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_key" jdbcType="VARCHAR" property="roleKey"/>
+        <result column="role_sort" jdbcType="INTEGER" property="roleSort"/>
+        <result column="data_scope" jdbcType="CHAR" property="dataScope"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        role_id, role_name, role_key, role_sort, data_scope, `status`, del_flag, create_by,
+        create_time, update_by, update_time, remark
+    </sql>
+
+    <select id="getRoleListByUserId" resultType="com.easyiat.system.pojo.Role">
+        select eur.role_id, er.role_key
+        from sys_user_role eur
+                     left join sys_role er
+                on er.role_id = eur.role_id
+                        and er.status = '0'
+                        and er.del_flag = '0'
+        where eur.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectRoleListByRoleName" resultMap="BaseResultMap">
+        select role_id,
+               role_name,
+               role_key,
+               role_sort,
+               data_scope,
+               status,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sys_role
+        <if test="roleName != null and roleName != ''">
+            where role_name like concat('%', #{roleName,jdbcType=VARCHAR}, '%')
+              and del_flag = '0'
+        </if>
+    </select>
+
+    <select id="selectRoleCountByRoleKey" resultType="java.lang.Integer">
+        select count(1)
+        from sys_role sr
+        where sr.role_key = #{roleKey,jdbcType=VARCHAR}
+          and del_flag = '0'
+    </select>
+
+    <insert id="insertRole">
+        insert into sys_role
+        set role_name=#{roleAddReq.roleName,jdbcType=VARCHAR},
+            role_key=#{roleAddReq.roleKey,jdbcType=VARCHAR},
+            remark=#{roleAddReq.remark,jdbcType=VARCHAR}
+    </insert>
+
+    <select id="selectRoleByRoleId" resultMap="BaseResultMap">
+        select role_id,
+               role_name,
+               role_key,
+               role_sort,
+               data_scope,
+               status,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sys_role sr
+        where sr.role_id = #{roleId,jdbcType=INTEGER}
+          and sr.del_flag = '0'
+    </select>
+
+    <update id="updateRole">
+        update sys_role
+        set role_name=#{roleEditReq.roleName,jdbcType=VARCHAR},
+            role_key=#{roleEditReq.roleKey,jdbcType=VARCHAR},
+            status=#{roleEditReq.status,jdbcType=VARCHAR},
+            remark=#{roleEditReq.remark,jdbcType=VARCHAR}
+        where role_id = #{roleEditReq.roleId,jdbcType=INTEGER}
+          and del_flag = '0'
+    </update>
+
+    <select id="selectRoleByRoleKey" resultMap="BaseResultMap">
+        select role_id,
+               role_name,
+               role_key,
+               role_sort,
+               data_scope,
+               status,
+               del_flag,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sys_role sr
+        where sr.role_key = #{roleKey,jdbcType=VARCHAR}
+          and sr.del_flag = '0'
+    </select>
+
+    <update id="deleteRoleByRoleId">
+        update sys_role
+        set del_flag = '1'
+        where role_id = #{roleKey,jdbcType=INTEGER}
+    </update>
+</mapper>
